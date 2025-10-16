@@ -9,11 +9,8 @@ const firebaseConfig = {
   projectId: "cabb-cfba0",
   storageBucket: "cabb-cfba0.appspot.com",
   messagingSenderId: "761679806757",
-  appId: "1:761679806757:web:df5aebebdba9b5d8591acc",
-  measurementId: "G-VY774N4H0N"
+  appId: "1:761679806757:web:df5aebebdba9b5d8591acc"
 };
 
 const app = initializeApp(firebaseConfig);
-const database = getDatabase(app);
-
-export default database;
+export const db = getDatabase(app);
