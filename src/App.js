@@ -1,33 +1,34 @@
-// src/App.js
 import React, { useEffect, useState } from "react";
+import { db } from "./firebase";
 import { ref, onValue } from "firebase/database";
-import database from "./firebase";
 
 function App() {
-  const [sensorData, setSensorData] = useState({});
+  const [data, setData] = useState({});
 
   useEffect(() => {
-    const sensorRef = ref(database, "sensorData/latest"); // if using latest node
-    onValue(sensorRef, (snapshot) => {
-      if (snapshot.exists()) {
-        setSensorData(snapshot.val());
-      }
+    const dataRef = ref(db, "GreenhouseData");
+    onValue(dataRef, (snapshot) => {
+      const val = snapshot.val();
+      setData(val);
     });
   }, []);
 
   return (
-    <div style={{ fontFamily: "Arial, sans-serif", padding: "20px" }}>
-      <h1>🌱 Smart Soil Monitor</h1>
-      <div>
-        <p>💧 Moisture: {sensorData.moisture ?? "–"}%</p>
-        <p>🌡️ Temperature: {sensorData.temperature ?? "–"} °C</p>
-        <p>⚡ EC: {sensorData.ec ?? "–"} µS</p>
-        <p>🧪 pH: {sensorData.ph ?? "–"}</p>
-        <p>🌿 Nitrogen: {sensorData.nitrogen ?? "–"} ppm</p>
-        <p>🍃 Phosphorus: {sensorData.phosphorus ?? "–"} ppm</p>
-        <p>🌾 Potassium: {sensorData.potassium ?? "–"} ppm</p>
-        <p>⏱ Timestamp: {sensorData.timestamp_iso ?? "–"}</p>
-      </div>
+    <div style={{ padding: "2rem", fontFamily: "Arial" }}>
+      <h1>Greenhouse Sensor Dashboard</h1>
+      {data ? (
+        <ul>
+          <li>Moisture: {data.Moisture}%</li>
+          <li>Temperature: {data.Temperature}°C</li>
+          <li>EC: {data.EC}</li>
+          <li>pH: {data.pH}</li>
+          <li>Nitrogen: {data.Nitrogen}</li>
+          <li>Phosphorus: {data.Phosphorus}</li>
+          <li>Potassium: {data.Potassium}</li>
+        </ul>
+      ) : (
+        <p>Loading...</p>
+      )}
     </div>
   );
 }
