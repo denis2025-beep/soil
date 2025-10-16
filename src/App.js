@@ -1,35 +1,13 @@
-import React, { useEffect, useState } from "react";
-import { db } from "./firebase";
-import { ref, onValue } from "firebase/database";
+// App.jsx
+import React, { Suspense } from 'react';
+import Dashboard from './pages/Dashboard';
+import './styles/Dashboard.css';
 
 function App() {
-  const [data, setData] = useState({});
-
-  useEffect(() => {
-    const dataRef = ref(db, "GreenhouseData");
-    onValue(dataRef, (snapshot) => {
-      const val = snapshot.val();
-      setData(val);
-    });
-  }, []);
-
   return (
-    <div style={{ padding: "2rem", fontFamily: "Arial" }}>
-      <h1>Greenhouse Sensor Dashboard</h1>
-      {data ? (
-        <ul>
-          <li>Moisture: {data.Moisture}%</li>
-          <li>Temperature: {data.Temperature}°C</li>
-          <li>EC: {data.EC}</li>
-          <li>pH: {data.pH}</li>
-          <li>Nitrogen: {data.Nitrogen}</li>
-          <li>Phosphorus: {data.Phosphorus}</li>
-          <li>Potassium: {data.Potassium}</li>
-        </ul>
-      ) : (
-        <p>Loading...</p>
-      )}
-    </div>
+    <Suspense fallback={<div className="loading">Loading dashboard...</div>}>
+      <Dashboard />
+    </Suspense>
   );
 }
 
