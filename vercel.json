@@ -1,4 +1,4 @@
-# vercel.json (Put in root of project)
+
 {
   "buildCommand": "npm run build",
   "outputDirectory": "dist",
